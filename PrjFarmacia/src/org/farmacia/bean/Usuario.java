@@ -1,16 +1,21 @@
 package org.farmacia.bean;
 
+import java.util.Date;
+
 public class Usuario {
 	
-	private String idUsuario;
+	private long idUsuario;
 	private String nombre;
 	private String apePaterno;
 	private String apeMaterno;
 	private String clave;
-	public String getIdUsuario() {
+	private Date fechaNacimiento;
+
+
+	public long getIdUsuario() {
 		return idUsuario;
 	}
-	public void setIdUsuario(String idUsuario) {
+	public void setIdUsuario(long idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 	public String getNombre() {
@@ -37,6 +42,13 @@ public class Usuario {
 	public void setClave(String clave) {
 		this.clave = clave;
 	}
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+	
 	
 
 }
