@@ -55,27 +55,18 @@ public class BaseServiceImpl<E, ID> implements BaseService<E, ID> {
 
 	@Override	
 	public E obtener(ID id){
-		try {
-			return baseDao.obtener(id);
-		} catch (Exception e) {
-		}
-		return null;
+		return baseDao.obtener(id);
 	}
 
 	@Override	
 	public List<E> listar(){
-		try {
-			return baseDao.listar();
-		} catch (Exception e) {
-		}
-		return null;
+		return baseDao.listar();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setBase(BaseDao<?, ?> baseDao) {
 		this.baseDao = (BaseDao<E, ID>) baseDao;
-
 	}
 
 }
