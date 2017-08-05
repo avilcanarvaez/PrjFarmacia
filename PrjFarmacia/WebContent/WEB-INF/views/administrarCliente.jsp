@@ -58,7 +58,7 @@
                 <ul class="nav" id="main-menu">
                     <li>
                         <!-- <a href="ingresaUsuario.html" class="waves-effect waves-dark"><i class="fa fa-edit"></i> Clientes</a> -->
-                        <li class="${param.opcion.equals('crear')?'active':''}"><a href="ingresarUsuario" ><i class="fa fa-edit"></i> Clientes</a></li>
+                        <li class="${param.opcion.equals('crear')?'active':''}"><a href="administrarCliente" ><i class="fa fa-edit"></i> Clientes</a></li>
                     </li>
                     <li>
                         <a href="table.html" class="waves-effect waves-dark"><i class="fa fa-table"></i> Productos</a>
@@ -97,7 +97,7 @@
              
          <form id="formAdministrarUsuario">
            <div class="container">
-				<button type="button" id="btnNuevo" class="btn-s btn-add"> Nuevo </button>
+				<button type="button" id="btnNuevo" class="btn btn-add"> Nuevo </button>
 					 
             </div>
         </form>
