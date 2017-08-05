@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -6,6 +6,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>| SISPHARMA- Sistema control farmacia |</title>
+    
+    <c:url var="home" value="/" scope="request" />
 	
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/materialize/css/materialize.min.css" media="screen,projection" />
@@ -38,7 +40,7 @@
             </div>
 
             <ul class="nav navbar-top-links navbar-right"> 				
-				  <li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown1"><i class="fa fa-user fa-fw"></i> <b>El Brandon</b> <i class="material-icons right">arrow_drop_down</i></a></li>
+				  <li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown1"><i class="fa fa-user fa-fw"></i> <b>Usuario</b> <i class="material-icons right">arrow_drop_down</i></a></li>
             </ul>
         </nav>
 		<!-- Dropdown Structure -->
@@ -56,7 +58,7 @@
                 <ul class="nav" id="main-menu">
                     <li>
                         <!-- <a href="ingresaUsuario.html" class="waves-effect waves-dark"><i class="fa fa-edit"></i> Clientes</a> -->
-                        <li class="${param.opcion.equals('crear')?'active':''}"><a href="registrarCliente" ><i class="fa fa-edit"></i> Clientes</a></li>
+                        <li class="${param.opcion.equals('crear')?'active':''}"><a href="ingresarUsuario" ><i class="fa fa-edit"></i> Clientes</a></li>
                     </li>
                     <li>
                         <a href="table.html" class="waves-effect waves-dark"><i class="fa fa-table"></i> Productos</a>
@@ -85,12 +87,44 @@
                             Dashboard
                         </h1> -->
 						<ol class="breadcrumb">
-					  <li><a href="#">Home</a></li>
+					  <li><a href="#">Cliente</a></li>
 <!-- 					  <li><a href="#">Dashboard</a></li>
 					  <li class="active">Data</li> -->
 					</ol> 
 									
 		</div>
+             <div class="page-inner"> 
+             
+         <form id="formUsuario">
+           <div class="container">
+                <input type="hidden" name="operacion" value="crear">
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese Nombre">
+         
+
+            <div class="form-group">
+                <label for="apePaterno">Apellido Paterno</label>
+                <input type="text" class="form-control" id="apePaterno" name="apePaterno" placeholder="Ingrese Apellido Paterno">
+            </div>
+            <div class="form-group">
+                <label for="apeMaterno">Apellido Materno</label>
+                <input type="text" class="form-control" id="apeMaterno" name="apeMaterno" placeholder="Ingrese Apellido Materno">
+            </div>
+            <div class="form-group">
+                <label for="clave">Clave</label>
+                <input type="password" class="form-control" id="clave" name="clave" placeholder="Ingrese Clave">
+            </div>
+            <div class="form-group">
+                <label for="nacimiento">Fec.Nac. (dd-mm-aaaa)</label>
+                <input type="text" class="form-control" id="nacimiento" name="nacimiento" placeholder="Ingrese Fec.Nacimiento">
+            </div>
+            <br />
+            <!-- <button type="submit" class="btn btn-primary">Grabar</button> -->
+            		 <button type="button" id="btnGrabarCliente" class="btn btn-primary"><spring:message/>Grabar</button>
+					 
+            </div>
+        </form>
+        </div>   
            
 		<div class="footer"> 
 		<footer><p>Todos los derechos reservados.</p>
@@ -105,10 +139,10 @@
     <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
-    <script src="${pageContext.request.contextPath}/resources/assets/js/jquery-1.10.2.js"></script>
+    <script type="text/JavaScript" src="${pageContext.request.contextPath}/resources/assets/js/jquery-1.10.2.js"></script>
 	
 	<!-- Bootstrap Js -->
-    <script src="${pageContext.request.contextPath}/resources/assets/js/bootstrap.min.js"></script>
+    <script type="text/JavaScript" src="${pageContext.request.contextPath}/resources/assets/js/bootstrap.min.js"></script>
 	
 	<script src="${pageContext.request.contextPath}/resources/assets/materialize/js/materialize.min.js"></script>
 	
@@ -116,7 +150,7 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/jquery.metisMenu.js"></script>
     <!-- Morris Chart Js -->
     <script src="${pageContext.request.contextPath}/resources/assets/js/morris/raphael-2.1.0.min.js"></script>
-<%--     <script src="${pageContext.request.contextPath}/resources/assets/js/morris/morris.js"></script> --%>
+    <%-- <script src="${pageContext.request.contextPath}/resources/assets/js/morris/morris.js"></script> --%>
 	
 	<script src="${pageContext.request.contextPath}/resources/assets/js/easypiechart.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/assets/js/easypiechart-data.js"></script>
@@ -124,6 +158,59 @@
 	 <script src="${pageContext.request.contextPath}/resources/assets/js/Lightweight-Chart/jquery.chart.js"></script>
 	
     <!-- Custom Js -->
-    <script src="${pageContext.request.contextPath}/resources/assets/js/custom-scripts.js"></script> 
+    <script src="${pageContext.request.contextPath}/resources/assets/js/custom-scripts.js"></script>
+    
+    
+     <script type="text/javascript">
+     $(document).ready(function() {
+	      inicializarVariables();
+	   	  cargarComponentes();
+     });
+     
+     var btnGrabarCliente = null;
+     var txtNombre=null;
+     var txtApePaterno=null;
+     var txtApeMaterno=null;
+     var txtClave=null;
+     var txtNacimiento=null;
+     
+     function inicializarVariables(){
+    	 btnGrabarCliente = $('#btnGrabarCliente');
+         txtNombre=$('#nombre');
+         txtApePaterno=$('#apePaterno');
+         txtApeMaterno=$('#apeMaterno');
+         txtClave=$('#clave');
+         txtNacimiento=$('#nacimiento');
+     }
+     
+     function cargarComponentes(){
+    	 btnGrabarCliente.click(function(event){
+			$.ajax({
+				type: "post",
+				url: "./crearUsuario",
+				cache: false,				
+				data:
+				{
+					nombre : txtNombre.val(),
+					apePaterno: txtApePaterno.val(),
+					apeMaterno: txtApeMaterno.val(),
+					clave: txtClave.val(),
+					nacimiento: txtNacimiento.val()
+	              },
+				success: function(response){
+					console.log("success");
+					   if(response==1){
+                           alert("Se Registro Correctamente!");
+                      }else{
+                    	  alert("Error al Registrar!");
+                      }
+				},
+				error: function(){						
+					console.log("error");
+				}
+			});
+		});
+     }
+     </script>
 </body>
 </html>
