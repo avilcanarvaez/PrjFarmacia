@@ -65,4 +65,9 @@ public class UsuarioController {
 		return formatter.parse(date);
 	}
 	
+	@GetMapping(value = "/administrarCliente")
+	public String administrarCliente() {
+		return "administrarCliente";
+	}
+	
 }
