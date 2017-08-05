@@ -5,8 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import org.farmacia.bean.Usuario;
-import org.farmacia.service.UsuarioService;
+import org.farmacia.bean.Cliente;
+import org.farmacia.service.ClienteService;
 import org.farmacia.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class UsuarioController {
+public class ClienteController {
 	
 	@Autowired
-	UsuarioService usuarioService;
+	ClienteService clienteService;
 
 	@GetMapping(value = { "/", "/index" })
 	public String index() {
@@ -31,26 +31,32 @@ public class UsuarioController {
 	
 	@GetMapping(value = "/listarUsuarios")
 	public ModelAndView listarUsuarios() {
-		List<Usuario> usuarios = this.usuarioService.listar();
+		List<Cliente> usuarios = this.clienteService.listar();
 		return new ModelAndView("listaUsuarios", "listaUsuarios", usuarios);
 	}
 
-	@PostMapping(value = "/crearUsuario")
-	public @ResponseBody String crearUsuario(HttpServletRequest request) throws ParseException {
-		System.out.println("crearUsuario()--");
-		Usuario usuario = new Usuario();
+	@PostMapping(value = "/crearCliente")
+	public @ResponseBody String crearCliente(HttpServletRequest request) throws ParseException {
+		System.out.println("crearCliente()--");
+		Cliente usuario = new Cliente();
 		String nombre = request.getParameter("nombre");
-		String clave = request.getParameter("clave");
 		String apePaterno = request.getParameter("apePaterno");
 		String apeMaterno = request.getParameter("apeMaterno");
+		String nroDocumento= request.getParameter("nroDocumento");
 		String fechaNacimiento = request.getParameter("nacimiento");
+		String correo =  request.getParameter("correo");
+		String direccion = request.getParameter("direccion");
+		String telefono = request.getParameter("telefono");
 
 		usuario.setNombre(nombre);
-		usuario.setClave(clave);
 		usuario.setApePaterno(apePaterno);
 		usuario.setApeMaterno(apeMaterno);
+		usuario.setNroDocumento(nroDocumento);
 		usuario.setFechaNacimiento(this.parseDate(fechaNacimiento));
-		this.usuarioService.insertar(usuario);
+		usuario.setCorreo(correo);
+		usuario.setDireccion(direccion);
+		usuario.setTelefono(telefono);
+		this.clienteService.insertar(usuario);
 		//return "redirect:/index";
 	    return JsonUtil.convertirObjetoACadenaJson(1);  
 	}
@@ -67,7 +73,7 @@ public class UsuarioController {
 	
 	@GetMapping(value = "/administrarCliente")
 	public String administrarCliente(Model model) {
-		model.addAttribute("listaClientes", JsonUtil.convertirObjetoACadenaJson(usuarioService.listar()));
+		model.addAttribute("listaClientes", JsonUtil.convertirObjetoACadenaJson(clienteService.listar()));
 		return "administrarCliente";
 	}
 	

@@ -2,13 +2,13 @@
 * Resumen.
 * Objeto                    :    BaseServiceImpl.java
 * Descripcion               :    Creacion de implementacion de servicio BaseServiceImpl.
-* Fecha de Creacion         :    12/04/2016
-* Autor                     :    Edinson Munoz
+* Fecha de Creacion         :    30/07/2017
+* Autor                     :    Alexander Vilca
 * ===========================================================================================================================
 * Modificaciones
-* Motivo             Fecha             Nombre                            Descripci�n
+* Motivo             Fecha             Nombre                            Descripcionn
 * ===========================================================================================================================
-* REQ005             25/04/2016       Jim Aguilar                  Cambio de tipo de parametro en el metodo eliminar.
+*
  * */
 
 

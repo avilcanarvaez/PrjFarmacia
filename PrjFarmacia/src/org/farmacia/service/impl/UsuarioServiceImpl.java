@@ -3,10 +3,9 @@ package org.farmacia.service.impl;
 import java.util.List;
 
 
-import org.farmacia.bean.Usuario;
-import org.farmacia.dao.UsuarioDao;
-import org.farmacia.dao.base.BaseDao;
-import org.farmacia.service.UsuarioService;
+import org.farmacia.bean.Cliente;
+import org.farmacia.dao.ClienteDao;
+import org.farmacia.service.ClienteService;
 import org.farmacia.service.impl.base.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,38 +13,38 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, Long> implements UsuarioService{
+public class UsuarioServiceImpl extends BaseServiceImpl<Cliente, Long> implements ClienteService{
 
 	@Autowired
-	UsuarioDao usuarioDao;
+	ClienteDao clienteDao;
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public void insertar(Usuario entidad) {
-		usuarioDao.insertar(entidad);
+	public void insertar(Cliente entidad) {
+		clienteDao.insertar(entidad);
 	}
 
 	@Override
-	public void actualizar(Usuario entidad) {
+	public void actualizar(Cliente entidad) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void eliminar(Usuario entidad) {
+	public void eliminar(Cliente entidad) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Usuario obtener(Long id) {
+	public Cliente obtener(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Usuario> listar() {
-			return usuarioDao.listar();
+	public List<Cliente> listar() {
+			return clienteDao.listar();
 	}
 
 	

@@ -140,6 +140,9 @@
 	<!-- Bootstrap Js -->
     <script type="text/JavaScript" src="${pageContext.request.contextPath}/resources/assets/js/bootstrap.min.js"></script>
 	<script type="text/JavaScript" src="${pageContext.request.contextPath}/resources/assets/js/bootstrap-table.js"></script>
+			<!-- Bootstrap Pagination Table -->
+	<script type="text/JavaScript" src="${pageContext.request.contextPath}/resources/assets/js/jquery.dataTables.min.js"></script>
+	<script type="text/JavaScript" src="${pageContext.request.contextPath}/resources/assets/js/dataTables.bootstrap.min.js"></script>
 	
 	
 	
@@ -172,7 +175,6 @@
      function inicializarVariables(){
     	 btnNuevo = $('#btnNuevo');
     	 tblClientes=$('#tblClientes');
-    	 
      }
      
      function cargarComponentes(){
@@ -199,14 +201,13 @@
              },
              columns: [
                  {
-                     field: 'idUsuario',
-                     title: 'Id Usuario',
+                     field: 'idCliente',
+                     title: 'Id Cliente',
                      align: 'left',
                      valign: 'bottom',
                      class:"col-xs-1",
                      visible: false,
                      sortable: false
-                     
                  },
                  {
                      field: 'apePaterno',
@@ -232,6 +233,30 @@
                      class:"col-xs-2",
                      sortable: true
                  },
+                 {
+                     field: 'correo',
+                     title: 'Correo',
+                     align: 'left',
+                     valign: 'bottom',
+                     class:"col-xs-2",
+                     sortable: true
+                 },
+                 {
+                     field: 'direccion',
+                     title: 'Direccion',
+                     align: 'left',
+                     valign: 'bottom',
+                     class:"col-xs-2",
+                     sortable: true
+                 },
+                 {
+                     field: 'telefono',
+                     title: 'Telefono',
+                     align: 'left',
+                     valign: 'bottom',
+                     class:"col-xs-2",
+                     sortable: true
+                 }
                  /* {
                      field: 'fechaUsuarioCreacion',
                      title: 'Fec. Creaci&oacute;n',
@@ -250,7 +275,8 @@
              ]
          });
          
-         
+         //Mostrar paginacion
+         $('#tblClientes').dataTable({searching: false});
      }
      </script>
 </body>

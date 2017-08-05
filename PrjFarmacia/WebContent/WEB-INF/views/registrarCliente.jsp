@@ -110,14 +110,32 @@
                 <label for="apeMaterno">Apellido Materno</label>
                 <input type="text" class="form-control" id="apeMaterno" name="apeMaterno" placeholder="Ingrese Apellido Materno">
             </div>
+            
             <div class="form-group">
-                <label for="clave">Clave</label>
-                <input type="password" class="form-control" id="clave" name="clave" placeholder="Ingrese Clave">
+                <label for="apeMaterno">Numero Documento</label>
+                <input type="text" class="form-control" id="nroDocumento" name="nroDocumento" placeholder="Ingrese Num. Documento">
             </div>
+
             <div class="form-group">
                 <label for="nacimiento">Fec.Nac. (dd-mm-aaaa)</label>
                 <input type="text" class="form-control" id="nacimiento" name="nacimiento" placeholder="Ingrese Fec.Nacimiento">
             </div>
+            
+            <div class="form-group">
+                <label for="apeMaterno">Email</label>
+                <input type="text" class="form-control" id="correo" name="correo" placeholder="Ingrese Email">
+            </div>
+            
+            <div class="form-group">
+                <label for="apeMaterno">Direccion</label>
+                <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ingrese Direccion">
+            </div>
+            
+            <div class="form-group">
+                <label for="apeMaterno">Telefono</label>
+                <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Ingrese Telefono">
+            </div>
+            
             <br />
             <!-- <button type="submit" class="btn btn-primary">Grabar</button> -->
             		 <button type="button" id="btnGrabarCliente" class="btn btn-primary"><spring:message/>Grabar</button>
@@ -171,31 +189,40 @@
      var txtNombre=null;
      var txtApePaterno=null;
      var txtApeMaterno=null;
-     var txtClave=null;
+     var txtNroDocumento=null;
      var txtNacimiento=null;
+     var txtCorreo=null;
+     var txtDireccion=null;
+     var txtTelefono=null;
      
      function inicializarVariables(){
     	 btnGrabarCliente = $('#btnGrabarCliente');
          txtNombre=$('#nombre');
          txtApePaterno=$('#apePaterno');
          txtApeMaterno=$('#apeMaterno');
-         txtClave=$('#clave');
+         txtNroDocumento=$('#nroDocumento');
          txtNacimiento=$('#nacimiento');
+         txtCorreo=$('#correo');
+         txtDireccion=$('#direccion');
+         txtTelefono=$('#telefono');
      }
      
      function cargarComponentes(){
     	 btnGrabarCliente.click(function(event){
 			$.ajax({
 				type: "post",
-				url: "./crearUsuario",
+				url: "./crearCliente",
 				cache: false,				
 				data:
 				{
 					nombre : txtNombre.val(),
 					apePaterno: txtApePaterno.val(),
 					apeMaterno: txtApeMaterno.val(),
-					clave: txtClave.val(),
-					nacimiento: txtNacimiento.val()
+					nroDocumento: txtNroDocumento.val(),
+					nacimiento: txtNacimiento.val(),
+					correo: txtCorreo.val(),
+					direccion: txtDireccion.val(),
+					telefono: txtTelefono.val()
 	              },
 				success: function(response){
 					console.log("success");
