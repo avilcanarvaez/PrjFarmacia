@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/materialize/css/materialize.min.css" media="screen,projection" />
     <!-- Bootstrap Styles-->
     <link href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/resources/assets/css/bootstrap-table.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
     <link href="${pageContext.request.contextPath}/resources/assets/css/font-awesome.css" rel="stylesheet" />
     <!-- Morris Chart Styles-->
@@ -93,15 +94,33 @@
 					</ol> 
 									
 		</div>
-             <div class="page-inner"> 
+             
              
          <form id="formAdministrarUsuario">
-           <div class="container">
-				<button type="button" id="btnNuevo" class="btn btn-add"> Nuevo </button>
+         <div class="container"> 
+    
+           
+           
+                  <div class="pull-right">
+		           <button type="button" id="btnNuevo" class="btn btn-add"> Nuevo </button>
+					<button type="button" id="btnBuscar" class="btn btn-search"> Buscar</button>
+		           </div>
+           
+     
+				
+				</br></br></br>
+				<div class="card">
+					<table class="table table-striped" id="tblClientes" data-flat="true" data-show-export="true">
+	                </table>
+				</div>
+				
+				
+				
 					 
             </div>
+            
         </form>
-        </div>   
+        
            
 		<div class="footer"> 
 		<footer><p>Todos los derechos reservados.</p>
@@ -120,6 +139,9 @@
 	
 	<!-- Bootstrap Js -->
     <script type="text/JavaScript" src="${pageContext.request.contextPath}/resources/assets/js/bootstrap.min.js"></script>
+	<script type="text/JavaScript" src="${pageContext.request.contextPath}/resources/assets/js/bootstrap-table.js"></script>
+	
+	
 	
 	<script src="${pageContext.request.contextPath}/resources/assets/materialize/js/materialize.min.js"></script>
 	
@@ -145,15 +167,90 @@
      });
      
      var btnNuevo = null;
+     var tblClientes = null;
      
      function inicializarVariables(){
     	 btnNuevo = $('#btnNuevo');
+    	 tblClientes=$('#tblClientes');
+    	 
      }
      
      function cargarComponentes(){
          btnNuevo.click(function(event){
              window.location.href = './registrarCliente';    
          });
+         
+         var listaClientes = ${listaClientes};
+         
+         tblClientes.bootstrapTable({
+             data: listaClientes,
+             exportDataType: 'all',
+             exportOptions: {
+                 fileName: 'clientes',
+                 ignoreColumn: [0, 11]
+             },
+             pagination: true,
+             pageSize: 10,
+             formatShowingRows: function (pageFrom, pageTo, totalRows) {
+                 return '';
+             },
+             formatRecordsPerPage: function(pageNumber){
+                 return '';
+             },
+             columns: [
+                 {
+                     field: 'idUsuario',
+                     title: 'Id Usuario',
+                     align: 'left',
+                     valign: 'bottom',
+                     class:"col-xs-1",
+                     visible: false,
+                     sortable: false
+                     
+                 },
+                 {
+                     field: 'apePaterno',
+                     title: 'Apellido Pat.',
+                     align: 'left',
+                     valign: 'bottom',
+                     class:"col-xs-2",
+                     sortable: true
+                 },
+                 {
+                     field: 'apeMaterno',
+                     title: 'Apellido Mat.',
+                     align: 'left',
+                     valign: 'bottom',
+                     class:"col-xs-2",
+                     sortable: true
+                 },
+                 {
+                     field: 'nombre',
+                     title: 'Nombre',
+                     align: 'left',
+                     valign: 'bottom',
+                     class:"col-xs-2",
+                     sortable: true
+                 },
+                 /* {
+                     field: 'fechaUsuarioCreacion',
+                     title: 'Fec. Creaci&oacute;n',
+                     align: 'center',
+                     valign: 'bottom',
+                     sortable: false
+                 },
+                 {
+                     field: 'fechaUsuarioModificacion',
+                     title: 'Ultima Mod.',
+                     align: 'center',
+                     valign: 'bottom',
+                     sortable: false
+                 }, */
+  
+             ]
+         });
+         
+         
      }
      </script>
 </body>

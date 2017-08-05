@@ -45,8 +45,7 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, Long> implement
 
 	@Override
 	public List<Usuario> listar() {
-		// TODO Auto-generated method stub
-		return null;
+			return usuarioDao.listar();
 	}
 
 	

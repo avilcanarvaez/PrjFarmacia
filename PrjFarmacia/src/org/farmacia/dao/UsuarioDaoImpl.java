@@ -7,6 +7,7 @@ import org.farmacia.bean.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
 @Repository
 public class UsuarioDaoImpl implements UsuarioDao{
 	@Autowired
@@ -41,8 +42,8 @@ public class UsuarioDaoImpl implements UsuarioDao{
 
 	@Override
 	public List<Usuario> listar() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql="SELECT ID_USUARIO,CLAVE,NOMBRE,APE_PATERNO,APE_MATERNO,FECHA_NACIMIENTO,CORREO,DIRECCION,TELEFONO FROM USUARIO";
+		return jdbcTemplate.query(sql, new UsuarioMapper());
 	}
 
 	@Override
