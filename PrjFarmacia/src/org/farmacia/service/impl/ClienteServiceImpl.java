@@ -1,7 +1,7 @@
 package org.farmacia.service.impl;
 
 import java.util.List;
-
+import java.util.Map;
 
 import org.farmacia.bean.Cliente;
 import org.farmacia.dao.ClienteDao;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UsuarioServiceImpl extends BaseServiceImpl<Cliente, Long> implements ClienteService{
+public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Long> implements ClienteService{
 
 	@Autowired
 	ClienteDao clienteDao;
@@ -45,6 +45,11 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Cliente, Long> implement
 	@Override
 	public List<Cliente> listar() {
 			return clienteDao.listar();
+	}
+
+	@Override
+	public List<Cliente>listarClientesPorParametroBusqueda(Map<String, Object> parametros) {
+		return clienteDao.listarClientesPorParametroBusqueda(parametros);
 	}
 
 	

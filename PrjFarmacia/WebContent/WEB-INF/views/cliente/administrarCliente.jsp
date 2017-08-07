@@ -96,19 +96,39 @@
 		</div>
              
              
-         <form id="formAdministrarUsuario">
-         <div class="container"> 
+  <form id="formClienteBusqueda">
+		<div class="container"> 
     
-           
-           
-                  <div class="pull-right">
+          <div class="row">
+       			 <div class="col-sm-2">
+       			 <label> Nombre: </label>
+                    <input id="txtNombre" name="nombre" type="text" class="form-control" placeholder="Ingrese Nombre">
+                	</div>
+       
+                <div class="col-sm-2">
+                <label> Apellido Paterno: </label>
+                    <input id="txtApePaterno" name="apePaterno" type="text" class="form-control" placeholder="Ingrese Apellido Paterno">
+                </div>
+                
+                <div class="col-sm-2">
+                <label> Apellido Materno: </label>
+                    <input id="txtApeMaterno" name="apeMaterno" type="text" class="form-control" placeholder="Ingrese Apellido Materno">
+                </div>
+                
+                <div class="col-sm-2">
+                <label> DNI: </label>
+                    <input id="txtNumDNi" name="documento" type="text" class="form-control" placeholder="Ingrese DNI">
+                </div>
+         </div>
+         <div class="row">
+         	   <div class="pull-right">
+         	   	   <button type="button" id="btnBuscar" class="btn btn-search"> Buscar</button>
 		           <button type="button" id="btnNuevo" class="btn btn-add"> Nuevo </button>
-					<button type="button" id="btnBuscar" class="btn btn-search"> Buscar</button>
-		           </div>
-           
-     
-				
-				</br></br></br>
+		           <button type="button" id="btnLimpiar" class="btn btn-clean" > Limpiar </button>
+					
+		        </div>
+         </div>
+
 				<div class="card">
 					<table class="table table-striped" id="tblClientes" data-flat="true" data-show-export="true">
 	                </table>
@@ -119,7 +139,7 @@
 					 
             </div>
             
-        </form>
+ </form>
         
            
 		<div class="footer"> 
@@ -136,6 +156,7 @@
     <!-- JS Scripts-->
     <!-- jQuery Js -->
     <script type="text/JavaScript" src="${pageContext.request.contextPath}/resources/assets/js/jquery-1.10.2.js"></script>
+    <script type="text/JavaScript" src="${pageContext.request.contextPath}/resources/assets/js/jquery.serializejson.js"></script>
 	
 	<!-- Bootstrap Js -->
     <script type="text/JavaScript" src="${pageContext.request.contextPath}/resources/assets/js/bootstrap.min.js"></script>
@@ -170,35 +191,90 @@
      });
      
      var btnNuevo = null;
+     var btnBuscar = null;
      var tblClientes = null;
+     var btnLimpiar = null;
+     var formClienteBusqueda=null;
      
      function inicializarVariables(){
     	 btnNuevo = $('#btnNuevo');
     	 tblClientes=$('#tblClientes');
+    	 btnLimpiar = $('#btnLimpiar');
+    	 btnBuscar = $('#btnBuscar');
+    	 formClienteBusqueda = $('#formClienteBusqueda');
      }
      
      function cargarComponentes(){
-         btnNuevo.click(function(event){
+        
+<%--          btnBuscar.click(function(event){
+         	$('#divMensajeInformacion div').remove();
+             var parametrosBusquedaJson = JSON.stringify(formUsuarioBusqueda.serializeJSON());                               
+             $.ajax({
+                 url: "./accionBuscarUsuario",
+                 type: "POST",
+                 dataType: "json",
+                 cache: false,
+                 data : {
+                        parametrosBusqueda : parametrosBusquedaJson
+                 }
+             }).done(function(paramJson) {
+                 tblUsuarios.bootstrapTable('load', paramJson);
+             }).fail(function( jqXHR, textStatus, errorThrown ) {
+             	  validarFinDeSesion(jqXHR, textStatus, errorThrown, '<%= ConstanteServices.MENSAJE_SESION_EXPIRADA %>');
+             });
+         });
+          --%>
+         
+         btnBuscar.click(function(event){
+        	 var parametrosBusquedaJson = JSON.stringify(formClienteBusqueda.serializeJSON());      
+ 			$.ajax({
+ 				type: "post",
+ 				url: "./accionBuscarCliente",
+                type: "POST",
+                dataType: "json",
+                cache: false,			
+ 				data:
+ 				{
+ 					 parametrosBusqueda : parametrosBusquedaJson
+ 	              },
+ 				success: function(response){
+ 					console.log("success");
+ 					tblClientes.bootstrapTable('load', response);
+ 				},
+ 				error: function(){						
+ 					console.log("error");
+ 				}
+ 			});
+ 		});
+         
+         
+         
+    	 
+    	 btnNuevo.click(function(event){
              window.location.href = './registrarCliente';    
          });
+         
+         btnLimpiar.click(function(event){
+             $('#formUsuarioBusqueda')[0].reset();
+           });
          
          var listaClientes = ${listaClientes};
          
          tblClientes.bootstrapTable({
              data: listaClientes,
-             exportDataType: 'all',
+   /*            exportDataType: 'all',
              exportOptions: {
                  fileName: 'clientes',
                  ignoreColumn: [0, 11]
              },
-             pagination: true,
+             pagination: true, 
              pageSize: 10,
              formatShowingRows: function (pageFrom, pageTo, totalRows) {
                  return '';
              },
              formatRecordsPerPage: function(pageNumber){
                  return '';
-             },
+             }, */
              columns: [
                  {
                      field: 'idCliente',
@@ -276,7 +352,7 @@
          });
          
          //Mostrar paginacion
-         $('#tblClientes').dataTable({searching: false});
+         /* $('#tblClientes').dataTable({searching: false}); */
      }
      </script>
 </body>

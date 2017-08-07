@@ -3,7 +3,10 @@ package org.farmacia.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import org.farmacia.bean.Cliente;
 import org.farmacia.service.ClienteService;
@@ -13,8 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -28,12 +32,12 @@ public class ClienteController {
 		System.out.println("Mostrando Inicio");
 		return "index";
 	}
-	
-	@GetMapping(value = "/listarUsuarios")
-	public ModelAndView listarUsuarios() {
-		List<Cliente> usuarios = this.clienteService.listar();
-		return new ModelAndView("listaUsuarios", "listaUsuarios", usuarios);
-	}
+//	
+//	@GetMapping(value = "/listarUsuarios")
+//	public ModelAndView listarUsuarios() {
+//		List<Cliente> usuarios = this.clienteService.listar();
+//		return new ModelAndView("listaUsuarios", "listaUsuarios", usuarios);
+//	}
 
 	@PostMapping(value = "/crearCliente")
 	public @ResponseBody String crearCliente(HttpServletRequest request) throws ParseException {
@@ -63,7 +67,7 @@ public class ClienteController {
 
 	@GetMapping(value = "/registrarCliente")
 	public String registrarCliente() {
-		return "registrarCliente";
+		return "cliente/registrarCliente";
 	}
 	
 	private Date parseDate(String date) throws ParseException {
@@ -74,7 +78,22 @@ public class ClienteController {
 	@GetMapping(value = "/administrarCliente")
 	public String administrarCliente(Model model) {
 		model.addAttribute("listaClientes", JsonUtil.convertirObjetoACadenaJson(clienteService.listar()));
-		return "administrarCliente";
+		return "cliente/administrarCliente";
 	}
+	
+    //@RequestMapping(value="/accionBuscarCliente", method=RequestMethod.POST)
+	@PostMapping(value="/accionBuscarCliente")
+    public @ResponseBody String accionBuscarCliente(HttpServletRequest request){   
+		System.out.println("Inicio accionBuscarCliente()");
+    	Map<String, Object> parametrosBusqueda = JsonUtil.convertirCadenaJsonAObjeto(request.getParameter("parametrosBusqueda"), HashMap.class);
+        String CadenaJson=null;
+        try {
+        	  CadenaJson=JsonUtil.convertirObjetoACadenaJson(clienteService.listarClientesPorParametroBusqueda(parametrosBusqueda));
+		} catch (Exception exception) {
+			//throw new Exception(exception);
+		}
+       
+        return CadenaJson;
+    }
 	
 }
