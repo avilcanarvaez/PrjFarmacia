@@ -38,8 +38,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Long> implement
 
 	@Override
 	public Cliente obtener(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return clienteDao.obtener(id);
 	}
 
 	@Override

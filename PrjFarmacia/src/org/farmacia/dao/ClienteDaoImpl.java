@@ -35,12 +35,12 @@ public class ClienteDaoImpl implements ClienteDao{
 		
 	}
 
-	@Override
-	public Cliente obtener(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Cliente obtener(Long id) {
+		String sql="SELECT ID_CLIENTE,NOMBRE,APE_PATERNO,APE_MATERNO,NRO_DOCUMENTO,FECHA_NACIMIENTO,CORREO,DIRECCION,TELEFONO,ESTADO FROM CLIENTE WHERE NRO_DOCUMENTO='"+id+"'";
+		Cliente cliente = (Cliente)jdbcTemplate.queryForObject(sql, new ClienteMapper());
+		return cliente;
 	}
-
+	
 	@Override
 	public List<Cliente> listar() {
 		String sql="SELECT ID_CLIENTE,NOMBRE,APE_PATERNO,APE_MATERNO,NRO_DOCUMENTO,FECHA_NACIMIENTO,CORREO,DIRECCION,TELEFONO,ESTADO FROM CLIENTE";
@@ -87,4 +87,5 @@ public class ClienteDaoImpl implements ClienteDao{
 		
 		return jdbcTemplate.query(sql.toString(), new ClienteMapper());
 	}
+
 }

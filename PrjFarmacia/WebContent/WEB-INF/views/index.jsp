@@ -61,6 +61,9 @@
                     <li>
                         <a href="table.html" class="waves-effect waves-dark"><i class="fa fa-table"></i> Productos</a>
                     </li>
+                    <li>
+                        <li class="${param.opcion.equals('crear')?'active':''}"><a href="cargarVentanaVentas" ><i class="fa fa-edit"></i> Ventas</a></li>
+                    </li>
 					<li>
                         <a href="chart.html" class="waves-effect waves-dark"><i class="fa fa-bar-chart-o"></i> Reportes</a>
                          <ul class="nav nav-second-level">
