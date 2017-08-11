@@ -123,6 +123,8 @@
           			      <label for="documento" class="">Nro Documento</label>
 		        	</div>
 		        	<div class="input-field col s3">
+		        		<hidden> </hidden>
+		        		  <input type="hidden" id="hdIdCliente"  name="hdIdCliente"  >
 				          <input id="cliente"  name="cliente" type="text" class="validate">
           			      <label for="cliente" class="">Cliente</label>
 		        	</div>
@@ -311,6 +313,10 @@
      var txtNombreCliente= null;
      var txtNumDocumento=null;
      var txtDireccion=null;
+     var txtTelefono=null; 
+     var txtCorreo=null;
+     var hdIdCliente=null;
+     
      
      function inicializarVariables(){
     	 tblProductos  = $('#tblProductos');
@@ -322,6 +328,9 @@
     	 txtNombreCliente = $('#cliente'); 
     	 txtNumDocumento = $('#documento');
     	 txtDireccion =  $('#direccion');
+    	 txtTelefono =  $('#telefono');
+    	 txtCorreo =  $('#correo');
+    	 hdIdCliente =  $('#hdIdCliente');
      }
      
      function cargarComponentes(){
@@ -343,6 +352,12 @@
       					txtNombreCliente.focus();
       					txtDireccion.val(response.direccion);
       					txtDireccion.focus();
+      					txtTelefono.val(response.telefono);
+      					txtTelefono.focus();
+      					txtCorreo.val(response.correo);
+      					txtCorreo.focus();
+      					hdIdCliente.val(response.idCliente);
+      					hdIdCliente.focus();
       				},
       				error: function(){						
       					console.log("error");
@@ -392,7 +407,8 @@
  				data:
  				{
  					productos : prodElegidos,
- 					idCliente: txtNombreCliente.val()
+ 					idCliente:  hdIdCliente//,
+ 					//nombreCliente: txtNombreCliente.val()
  	              },
  				success: function(response){
  					console.log("success");
@@ -422,5 +438,3 @@
 
      } 
      </script>
-</body>
-</html>
