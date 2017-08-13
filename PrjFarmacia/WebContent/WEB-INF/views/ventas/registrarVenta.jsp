@@ -165,9 +165,15 @@
 		        </div>
 	      </div>
 	            <div class="row">
+	               <div class="input-field col s1">
+				          <input id="txtCodArticulo"  name="codArticulo" type="text" class="validate">
+          			      <label for="codArticulo" class="">Cod. Articulo</label>
+		        	</div>
+	            
 	             	<div class="input-field col s2">
-				          <input id="txtArticulo" name="articulo" type="text" class="validate">
-          			      <label for="articulo" class="">Articulo</label>
+	             	<input type="hidden" id="hdIdProducto"  name="hdIdProducto"  >
+				          <input id="txtNombreArticulo" name="nombreArticulo" type="text" class="validate">
+          			      <label for="nombreArticulo" class="">Articulo</label>
 		        	</div>
 		        	<div class="input-field col s1">
 				          <input id="txtPrecio"  name="precio" type="text" class="validate">
@@ -311,7 +317,8 @@
      
      var tblProductos  = null;
      var btnAgregar  = null;
-     var txtArticulo  = null;
+     var txtNombreArticulo  = null;
+     var txtCodArticulo  = null;
      var txtPrecio  = null;
      var txtCantidad  = null;
      var btnFinalizar = null;
@@ -325,7 +332,7 @@
      function inicializarVariables(){
     	 tblProductos  = $('#tblProductos');
     	 btnAgregar  = $('#btnAgregar');
-    	 txtArticulo  = $('#txtArticulo');
+    	 txtNombreArticulo  = $('#txtNombreArticulo');
     	 txtPrecio  = $('#txtPrecio');
     	 txtCantidad  = $('#txtCantidad');
     	 btnFinalizar  = $('#btnFinalizar');
@@ -335,6 +342,7 @@
     	 txtTelefono =  $('#telefono');
     	 txtCorreo =  $('#correo');
     	 hdIdCliente =  $('#hdIdCliente');
+    	 txtCodArticulo  = $('#txtCodArticulo');
     	 
     	 btnFinalizar.attr("disabled", true) 
      }
@@ -353,7 +361,7 @@
       	              },
       	            dataType: "json",
       				success: function(response){
-                         if(response.estadoRespuesta == '<%= UConstantes.OK%>'){
+                         if(response.estadoRespuesta == '<%=UConstantes.OK%>'){
                         	removerMensaje();
           					txtNombreCliente.val(response.parametros.cliente.nombre);
           					txtNombreCliente.focus();
@@ -379,7 +387,7 @@
          
          
          
-         txtArticulo.on('keyup', function (e) {
+         txtCodArticulo.on('keyup', function (e) {
       	    if (e.keyCode == 13) {
         			$.ajax({
        				type: "post",
@@ -387,24 +395,19 @@
        				cache: false,				
        				data:
        				{
-       					numDocumento: txtNumDocumento.val()
+       					codProducto: txtArticulo.val()
        	              },
        	            dataType: "json",
        				success: function(response){
                           if(response.estadoRespuesta == '<%= UConstantes.OK%>'){
                          	removerMensaje();
-           					txtNombreCliente.val(response.parametros.cliente.nombre);
-           					txtNombreCliente.focus();
-           					txtDireccion.val(response.parametros.cliente.direccion);
-           					txtDireccion.focus();
-           					txtTelefono.val(response.parametros.cliente.telefono);
-           					txtTelefono.focus();
-           					txtCorreo.val(response.parametros.cliente.correo);
-           					txtCorreo.focus();
-           					hdIdCliente.val(response.parametros.cliente.idCliente);
-           					hdIdCliente.focus();
+                         	txtPrecio.val(response.parametros.cliente.nombre);
+                         	txtPrecio.focus();
+           					txtCantidad.val(response.parametros.cliente.direccion);
+           					txtCantidad.focus();
+           					hdNombreProducto.val(response.parametros.cliente.idCliente);
                          }else{
-                         	hdIdCliente.val(0);
+                         	//hdIdCliente.val(0);
                          	mostrarMensajeError('El número de Documento Ingresado no se encuentrado registrado en nuestro sistema.');
                          }    
        				},
@@ -415,18 +418,10 @@
       	    }
       	});
          
-         
-         
-         
-         
-         
-         
-         
-         
     	 
     	 btnAgregar.click(function(event){
     		 if (txtArticulo.val()!='' && txtPrecio.val()!='' && txtCantidad.val()!='' ) {
-            	 var row = $("<tr><td>"+txtArticulo.val()+ "</td><td>" + txtCantidad.val() +"</td><td>"+ txtPrecio.val()   + "</td></tr>");
+            	 var row = $("<tr><td>"+txtNombreArticulo.val()+ "</td><td>" + txtCantidad.val() +"</td><td>"+ txtPrecio.val()   + "</td></tr>");
                  $("#tblProductos > tbody").append(row);
                  limpiar();
                  btnFinalizar.attr("disabled", false);

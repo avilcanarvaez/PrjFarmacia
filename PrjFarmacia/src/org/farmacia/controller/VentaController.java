@@ -58,6 +58,29 @@ public class VentaController {
         return JsonUtil.convertirObjetoACadenaJson(respuesta);
     }
 	
+	@PostMapping(value="/accionObtenerProductoXCodigo")
+    public @ResponseBody String accionObtenerProductoXCodigo(HttpServletRequest request){   
+		System.out.println("Inicio accionObtenerProductoXCodigo()");
+		Respuesta respuesta = new Respuesta();
+		Cliente cliente= new Cliente();
+		Map<String, Object> parametros = new HashMap<String, Object>();
+    	String codProducto= request.getParameter("codProducto");
+        try {
+        		 //cliente=clienteService.obtener(dni);
+        		 respuesta.setEstadoRespuesta(UConstantes.OK);
+        		 parametros.put("cliente", cliente);
+        		 respuesta.setParametros(parametros);
+		} catch (Exception exception) {
+			respuesta.setEstadoRespuesta(UConstantes.ERROR);
+			respuesta.setMensajeRespuesta(exception.toString());
+		}
+        System.out.println("Fin accionObtenerProductoXCodigo()");
+        return JsonUtil.convertirObjetoACadenaJson(respuesta);
+    }
+	
+	
+	
+	
 	@PostMapping(value = "/finalizarVenta")
 	public @ResponseBody String finalizarVenta(HttpServletRequest request) throws ParseException {
 		System.out.println("finalizarVenta()--");
