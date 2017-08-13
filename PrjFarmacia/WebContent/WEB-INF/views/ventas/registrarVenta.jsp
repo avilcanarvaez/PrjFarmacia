@@ -496,9 +496,10 @@
  				success: function(response){
  					console.log("success");
  					   if(response==1){
-                            alert("Se Registro Correctamente!");
+ 						  mostrarMensajeConfirmacion('La compra se ha realizado con éxito!');
+                            
                        }else{
-                     	  alert("Error al Registrar!");
+                     	 mostrarMensajeError('Ocurrio un problema al Registrar.');
                        }
  				},
  				error: function(){						
@@ -546,9 +547,31 @@
          return patron.test(te); 
      }
      
+     function validarLetras(e) {
+         tecla = (document.all) ? e.keyCode : e.which;
+         if (tecla == 8)
+             return true;
+         if (tecla == 9)
+             return true;
+         if (tecla == 11)
+             return true;
+         letras_latinas = /^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/;
+         te = String.fromCharCode(tecla);
+         return letras_latinas.test(te);
+     }
+     
      function removerMensaje(){
 	 	  $('#divMensajeInformacion div').remove();
 	 }
+     
+     function mostrarMensajeConfirmacion(mensaje){
+         var mensajeHTML = '';
+         mensajeHTML = '<div class="alert alert-success" role="alert" style="height: auto!important;">';
+         mensajeHTML = mensajeHTML + '<i class="fa fa-check"></i>';
+         mensajeHTML = mensajeHTML + mensaje;
+         $('#divMensajeInformacion div').remove();
+         $('#divMensajeInformacion').append(mensajeHTML);
+     }
      
      //$('#tblProductos tr').length;
      } 
