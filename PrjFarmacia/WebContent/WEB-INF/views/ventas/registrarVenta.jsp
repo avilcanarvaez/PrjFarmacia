@@ -1,3 +1,4 @@
+<%@page import="org.farmacia.util.UConstantes"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -112,6 +113,10 @@
 		        </div>
 	              
 			</div>
+			
+			
+		<div id="divMensajeInformacion" class="alert-custom">
+         </div>
 		
 		<!-- Contenedor Cliente -->
 		  <div class="panel panel-default">
@@ -119,7 +124,7 @@
 	      <div class="panel-body">
 	            <div class="row">
 	             	<div class="input-field col s1">
-				          <input id="documento" name="documento"  type="text" class="validate">
+				          <input type="text" id="documento" name="documento" class="validate" maxlength="8">
           			      <label for="documento" class="">Nro Documento</label>
 		        	</div>
 		        	<div class="input-field col s3">
@@ -160,9 +165,15 @@
 		        </div>
 	      </div>
 	            <div class="row">
+	               <div class="input-field col s1">
+				          <input id="txtCodArticulo"  name="codArticulo" type="text" class="validate">
+          			      <label for="codArticulo" class="">Cod. Articulo</label>
+		        	</div>
+	            
 	             	<div class="input-field col s2">
-				          <input id="txtArticulo" name="articulo" type="text" class="validate">
-          			      <label for="articulo" class="">Articulo</label>
+	             	<input type="hidden" id="hdIdProducto"  name="hdIdProducto"  >
+				          <input id="txtNombreArticulo" name="nombreArticulo" type="text" class="validate">
+          			      <label for="nombreArticulo" class="">Articulo</label>
 		        	</div>
 		        	<div class="input-field col s1">
 				          <input id="txtPrecio"  name="precio" type="text" class="validate">
@@ -306,7 +317,8 @@
      
      var tblProductos  = null;
      var btnAgregar  = null;
-     var txtArticulo  = null;
+     var txtNombreArticulo  = null;
+     var txtCodArticulo  = null;
      var txtPrecio  = null;
      var txtCantidad  = null;
      var btnFinalizar = null;
@@ -317,11 +329,10 @@
      var txtCorreo=null;
      var hdIdCliente=null;
      
-     
      function inicializarVariables(){
     	 tblProductos  = $('#tblProductos');
     	 btnAgregar  = $('#btnAgregar');
-    	 txtArticulo  = $('#txtArticulo');
+    	 txtNombreArticulo  = $('#txtNombreArticulo');
     	 txtPrecio  = $('#txtPrecio');
     	 txtCantidad  = $('#txtCantidad');
     	 btnFinalizar  = $('#btnFinalizar');
@@ -331,6 +342,9 @@
     	 txtTelefono =  $('#telefono');
     	 txtCorreo =  $('#correo');
     	 hdIdCliente =  $('#hdIdCliente');
+    	 txtCodArticulo  = $('#txtCodArticulo');
+    	 
+    	 btnFinalizar.attr("disabled", true) 
      }
      
      function cargarComponentes(){
@@ -347,17 +361,22 @@
       	              },
       	            dataType: "json",
       				success: function(response){
-      					//console.log("cliente"+ response.nombre);
-      					txtNombreCliente.val(response.nombre);
-      					txtNombreCliente.focus();
-      					txtDireccion.val(response.direccion);
-      					txtDireccion.focus();
-      					txtTelefono.val(response.telefono);
-      					txtTelefono.focus();
-      					txtCorreo.val(response.correo);
-      					txtCorreo.focus();
-      					hdIdCliente.val(response.idCliente);
-      					hdIdCliente.focus();
+                         if(response.estadoRespuesta == '<%=UConstantes.OK%>'){
+                        	removerMensaje();
+          					txtNombreCliente.val(response.parametros.cliente.nombre);
+          					txtNombreCliente.focus();
+          					txtDireccion.val(response.parametros.cliente.direccion);
+          					txtDireccion.focus();
+          					txtTelefono.val(response.parametros.cliente.telefono);
+          					txtTelefono.focus();
+          					txtCorreo.val(response.parametros.cliente.correo);
+          					txtCorreo.focus();
+          					hdIdCliente.val(response.parametros.cliente.idCliente);
+          					hdIdCliente.focus();
+                        }else{
+                        	hdIdCliente.val(0);
+                        	mostrarMensajeError('El número de Documento Ingresado no se encuentrado registrado en nuestro sistema.');
+                        }    
       				},
       				error: function(){						
       					console.log("error");
@@ -365,15 +384,50 @@
       			});
      	    }
      	});
-    	 
-    	 
-    	 btnAgregar.click(function(event){
-        	 var row = $("<tr><td>"+txtArticulo.val()+ "</td><td>" + txtCantidad.val() +"</td><td>"+ txtPrecio.val()   + "</td></tr>");
-             $("#tblProductos > tbody").append(row);
-             limpiar();
- 		});
+         
+         
+         
+         txtCodArticulo.on('keyup', function (e) {
+      	    if (e.keyCode == 13) {
+        			$.ajax({
+       				type: "post",
+       				url: "./accionObtenerProductoXCodigo",
+       				cache: false,				
+       				data:
+       				{
+       					codProducto: txtArticulo.val()
+       	              },
+       	            dataType: "json",
+       				success: function(response){
+                          if(response.estadoRespuesta == '<%= UConstantes.OK%>'){
+                         	removerMensaje();
+                         	txtPrecio.val(response.parametros.cliente.nombre);
+                         	txtPrecio.focus();
+           					txtCantidad.val(response.parametros.cliente.direccion);
+           					txtCantidad.focus();
+           					hdNombreProducto.val(response.parametros.cliente.idCliente);
+                         }else{
+                         	//hdIdCliente.val(0);
+                         	mostrarMensajeError('El número de Documento Ingresado no se encuentrado registrado en nuestro sistema.');
+                         }    
+       				},
+       				error: function(){						
+       					console.log("error");
+       				}
+       			});
+      	    }
+      	});
          
     	 
+    	 btnAgregar.click(function(event){
+    		 if (txtArticulo.val()!='' && txtPrecio.val()!='' && txtCantidad.val()!='' ) {
+            	 var row = $("<tr><td>"+txtNombreArticulo.val()+ "</td><td>" + txtCantidad.val() +"</td><td>"+ txtPrecio.val()   + "</td></tr>");
+                 $("#tblProductos > tbody").append(row);
+                 limpiar();
+                 btnFinalizar.attr("disabled", false);
+			}
+ 		});
+         
     	 btnFinalizar.click(function(event){
     		 var prodElegidos='';
     		 var i=0;
@@ -391,15 +445,11 @@
     		                                break;
     		                        case 2: campo3 = $(this).text();
     		                                break;
-    		                    }
-    		                //    $(this).css("background-color", "#ECF8E0");
-    		                
+    		                    }    		                
     		                })
     		                prodElegidos+=(campo1 + '-' + campo2 + '-' + campo3+'/');
     		            })
-    		            //alert(prodElegidos);
     		 //Fin - Recorrer grilla
-    		 
   			$.ajax({
  				type: "post",
  				url: "./finalizarVenta",
@@ -407,7 +457,7 @@
  				data:
  				{
  					productos : prodElegidos,
- 					idCliente:  hdIdCliente//,
+ 					idCliente:  hdIdCliente.val()//,
  					//nombreCliente: txtNombreCliente.val()
  	              },
  				success: function(response){
@@ -430,7 +480,38 @@
     	 txtCantidad.val('');
      }
      
+     function mostrarMensajeError(mensaje){
+         var mensajeHTML = '';
+         mensajeHTML = '<div class="alert alert-danger" role="alert" style="height: auto!important;">';
+         mensajeHTML = mensajeHTML + '<i class="fa fa-warning"></i>';
+         mensajeHTML = mensajeHTML + mensaje;
+         $('#divMensajeInformacion div').remove();
+         $('#divMensajeInformacion').append(mensajeHTML);
+     }
      
+       txtNumDocumento.keyup(function(event) {
+         this.value = (this.value + '').replace(/[^0-9]/g, '');
+    	   //validarSoloNumeros(event);
+       }); 
+     
+     function validarSoloNumeros(e) {
+          tecla = (document.all) ? e.keyCode : e.which;
+         if (tecla == 8)
+             return true;
+         if (tecla == 9)
+             return true;
+         if (tecla == 11)
+             return true;
+			if (tecla == 32)
+				return false;
+         patron = /[0-9\s_]/;
+         te = String.fromCharCode(tecla);
+         return patron.test(te); 
+     }
+     
+     function removerMensaje(){
+	 	  $('#divMensajeInformacion div').remove();
+	 }
 
      
      //$('#tblProductos tr').length;
