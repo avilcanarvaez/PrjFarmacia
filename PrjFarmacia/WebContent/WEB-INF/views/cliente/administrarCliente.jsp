@@ -62,7 +62,7 @@
                         <li class="${param.opcion.equals('crear')?'active':''}"><a href="administrarCliente" ><i class="fa fa-edit"></i> Clientes</a></li>
                     </li>
                     <li>
-                        <a href="table.html" class="waves-effect waves-dark"><i class="fa fa-table"></i> Productos</a>
+                        <a href="bandejaProducto.html" class="waves-effect waves-dark"><i class="fa fa-table"></i> Productos</a>
                     </li>
 					<li>
                         <a href="chart.html" class="waves-effect waves-dark"><i class="fa fa-bar-chart-o"></i> Reportes</a>

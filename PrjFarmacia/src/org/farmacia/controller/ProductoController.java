@@ -28,19 +28,24 @@ public class ProductoController {
 		return "producto/bandejaProducto";
 	}
 	
+	@GetMapping(value = "/registrarProducto" )
+	public String registrarProducto() {
+		System.out.println("Mostrando registrarProducto");
+		return "registrarProducto";
+	}
 	
-//	@PostMapping(value="/accionBuscarProducto")
-//    public @ResponseBody String accionBuscarProducto(HttpServletRequest request){   
-//		System.out.println("Inicio accionBuscarProducto()");
-//    	Map<String, Object> parametrosBusqueda = JsonUtil.convertirCadenaJsonAObjeto(request.getParameter("parametrosBusqueda"), HashMap.class);
-//        String CadenaJson=null;
-//        try {
-//        	  CadenaJson=JsonUtil.convertirObjetoACadenaJson(productoService.listarProductoPorParametroBusqueda(parametrosBusqueda));
-//		} catch (Exception exception) {
-//			//throw new Exception(exception);
-//		}
-//       
-//        return CadenaJson;
-//    }
+	@PostMapping(value="/accionBuscarProducto")
+    public @ResponseBody String accionBuscarProducto(HttpServletRequest request){   
+		System.out.println("Inicio accionBuscarProducto()");
+    	Map<String, Object> parametrosBusqueda = JsonUtil.convertirCadenaJsonAObjeto(request.getParameter("parametrosBusqueda"), HashMap.class);
+        String CadenaJson=null;
+        try {
+        	  CadenaJson=JsonUtil.convertirObjetoACadenaJson(productoService.listarProductoPorParametroBusqueda(parametrosBusqueda));
+		} catch (Exception exception) {
+			//throw new Exception(exception);
+		}
+       
+        return CadenaJson;
+    }
 
 }

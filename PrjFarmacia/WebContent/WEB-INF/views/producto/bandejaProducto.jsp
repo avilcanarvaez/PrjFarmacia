@@ -59,10 +59,10 @@
                 <ul class="nav" id="main-menu">
                     <li>
                         <!-- <a href="ingresaUsuario.html" class="waves-effect waves-dark"><i class="fa fa-edit"></i> Clientes</a> -->
-                        <li class="${param.opcion.equals('crear')?'active':''}"><a href="bandejaProducto" ><i class="fa fa-edit"></i> Clientes</a></li>
+                        <li class="${param.opcion.equals('crear')?'active':''}"><a href="administrarCliente" ><i class="fa fa-edit"></i> Clientes</a></li>
                     </li>
                     <li>
-                        <a href="bandejaProducto.html" class="waves-effect waves-dark"><i class="fa fa-table"></i> Productos</a>
+                        <li class="${param.opcion.equals('crear')?'active':''}"><a href="bandejaProducto" class="waves-effect waves-dark"><i class="fa fa-table"></i> Productos</a>
                     </li>
 					<li>
                         <a href="chart.html" class="waves-effect waves-dark"><i class="fa fa-bar-chart-o"></i> Reportes</a>
@@ -123,7 +123,7 @@
          <div class="row">
          	   <div class="pull-right">
          	   	   <button type="button" id="btnBuscar" class="btn btn-search"> Buscar</button>
-		           <button type="button" id="btnNuevo" class="btn btn-add"> Nuevo </button>
+<!-- 		           <button type="button" id="btnNuevo" class="btn btn-add"> Nuevo </button> -->
 		           <button type="button" id="btnLimpiar" class="btn btn-clean" > Limpiar </button>
 					
 		        </div>
@@ -231,11 +231,11 @@
          
     	 
     	 btnNuevo.click(function(event){
-             window.location.href = './registrarCliente';    
+             window.location.href = './registrarProducto';    
          });
          
          btnLimpiar.click(function(event){
-             $('#formUsuarioBusqueda')[0].reset();
+             $('#txtNombre').val("");
            });
          
          var listaProducto = ${listaProducto};
@@ -244,6 +244,15 @@
              data: listaProducto,
              columns: [
                  {
+                     field: 'idProducto',
+                     title: 'Código',
+                     align: 'left',
+                     valign: 'bottom',
+                     class:"col-xs-1",
+                     visible: true,
+                     sortable: false
+                 },
+                 {
                      field: 'nombre',
                      title: 'Nombre',
                      align: 'left',
@@ -251,7 +260,34 @@
                      class:"col-xs-1",
                      visible: true,
                      sortable: false
-                 }
+                 },
+                 {
+                     field: 'fechaVenc',
+                     title: 'Fecha de Vencimiento',
+                     align: 'left',
+                     valign: 'bottom',
+                     class:"col-xs-1",
+                     visible: true,
+                     sortable: false
+                 },                
+                 {
+                     field: 'stock',
+                     title: 'Stock',
+                     align: 'left',
+                     valign: 'bottom',
+                     class:"col-xs-1",
+                     visible: true,
+                     sortable: false
+                 }, 
+                 {
+                     field: 'preVenta',
+                     title: 'Precio / tbl',
+                     align: 'left',
+                     valign: 'bottom',
+                     class:"col-xs-1",
+                     visible: true,
+                     sortable: false
+                 },
              ]
          });
         }
