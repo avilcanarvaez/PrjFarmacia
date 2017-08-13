@@ -58,4 +58,19 @@ public class ProductoDaoImpl implements ProductoDao{
 		String sql="SELECT ID_PRODUCTO,NOMBRE,PRE_VENTA,PRE_COMPRA,FECHA_VENC,STOCK,ID_CATEGORIA,ESTADO FROM PRODUCTO";
 		return jdbcTemplate.query(sql, new ProductoMapper());
 	}
+
+	@Override
+	public Producto obtenerProductoXCodigo(String codigoProducto) {
+		String sql="SELECT COD_PRODUCTO,ID_PRODUCTO,NOMBRE,PRE_VENTA,PRE_COMPRA,FECHA_VENC,STOCK,ID_CATEGORIA,ESTADO FROM PRODUCTO WHERE COD_PRODUCTO='"+codigoProducto+"'";
+		Producto producto = (Producto)jdbcTemplate.queryForObject(sql, new ProductoMapper());
+		return producto;
+	}
+
+	@Override
+	public int actualizarStock(long idProducto, long cantidad) {
+		 String sql = "UPDATE PRODUCTO SET STOCK = STOCK-? WHERE ID_PRODUCTO = ?";
+		Object[] params= new Object[] {cantidad,idProducto};
+		return this.jdbcTemplate.update(sql, params);
+	}
+	
 }

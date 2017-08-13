@@ -53,4 +53,15 @@ public class ProductoServiceImpl extends BaseServiceImpl<Producto, Long> impleme
 		return productoDao.listarProductoPorParametroBusqueda(parametros);
 	}
 
+	@Override
+	public Producto obtenerProductoXCodigo(String codigoProducto) {
+		return productoDao.obtenerProductoXCodigo(codigoProducto);
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public int actualizarStock(long idProducto, long cantidad) {
+		return productoDao.actualizarStock(idProducto, cantidad);
+	}
+
 }

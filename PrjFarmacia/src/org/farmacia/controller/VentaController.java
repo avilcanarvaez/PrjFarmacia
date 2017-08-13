@@ -5,13 +5,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.farmacia.bean.Cliente;
 import org.farmacia.bean.DetalleOrdenPedido;
 import org.farmacia.bean.OrdenPedido;
+import org.farmacia.bean.Producto;
 import org.farmacia.bean.Respuesta;
 import org.farmacia.service.ClienteService;
 import org.farmacia.service.OrdenPedidoService;
+import org.farmacia.service.ProductoService;
 import org.farmacia.util.JsonUtil;
 import org.farmacia.util.UConstantes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +33,9 @@ public class VentaController {
 	
 	@Autowired
 	OrdenPedidoService ordenPedidoService;
+	
+	@Autowired
+	ProductoService productoService;
 	
 	@GetMapping(value = "/cargarVentanaVentas")
 	public String cargarVentanaVentas(Model model) {
@@ -62,13 +69,13 @@ public class VentaController {
     public @ResponseBody String accionObtenerProductoXCodigo(HttpServletRequest request){   
 		System.out.println("Inicio accionObtenerProductoXCodigo()");
 		Respuesta respuesta = new Respuesta();
-		Cliente cliente= new Cliente();
+		Producto producto= new Producto();
 		Map<String, Object> parametros = new HashMap<String, Object>();
     	String codProducto= request.getParameter("codProducto");
         try {
-        		 //cliente=clienteService.obtener(dni);
+        	producto=productoService.obtenerProductoXCodigo(codProducto);
         		 respuesta.setEstadoRespuesta(UConstantes.OK);
-        		 parametros.put("cliente", cliente);
+        		 parametros.put("producto", producto);
         		 respuesta.setParametros(parametros);
 		} catch (Exception exception) {
 			respuesta.setEstadoRespuesta(UConstantes.ERROR);
@@ -105,11 +112,12 @@ public class VentaController {
 		
 		for (int i = 0; i < aInfoProducto.length; i++) {
 			aInfoProductoTmp=aInfoProducto[i].split("-");
-			nombreProducto=aInfoProductoTmp[0].toString();
-			precioVenta=aInfoProductoTmp[1].toString();
-			cantidad=aInfoProductoTmp[2].toString();			
+			idProducto=aInfoProductoTmp[0].toString();
+			nombreProducto=aInfoProductoTmp[1].toString();
+			cantidad=aInfoProductoTmp[2].toString();
+			precioVenta=aInfoProductoTmp[3].toString();			
 			detalleOrdenPedido= new DetalleOrdenPedido();
-			//detalleOrdenPedido.setIdProducto(idProducto);
+			detalleOrdenPedido.setIdProducto(Long.parseLong(idProducto));
 			detalleOrdenPedido.setNombreProducto(nombreProducto);
 			detalleOrdenPedido.setCantidad(Long.parseLong(cantidad) );
 			detalleOrdenPedido.setPrecioVenta(Double.parseDouble(precioVenta) );
