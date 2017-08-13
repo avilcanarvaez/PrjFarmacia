@@ -509,10 +509,7 @@
      function removerMensaje(){
 	 	  $('#divMensajeInformacion div').remove();
 	 }
-
      
      //$('#tblProductos tr').length;
-       
-
      } 
      </script>
