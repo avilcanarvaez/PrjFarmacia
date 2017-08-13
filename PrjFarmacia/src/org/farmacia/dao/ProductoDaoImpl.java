@@ -17,9 +17,6 @@ public class ProductoDaoImpl implements ProductoDao{
 	
 	@Override
 	public  List<Producto> listarProductoPorParametroBusqueda(Map<String, Object> parametros) {
-		//System.out.println("parametro(txtNombre)==>"+parametros.get("nombre") )
-		//{documento=123, apeMaterno=n, nombre=alex, apePaterno=v};
-		
 		StringBuilder sql=new StringBuilder();
 		sql.append( "SELECT ID_CLIENTE,NOMBRE,APE_PATERNO,APE_MATERNO,NRO_DOCUMENTO,FECHA_NACIMIENTO,CORREO,DIRECCION,TELEFONO,ESTADO FROM CLIENTE");
 		if (!parametros.get("nombre").equals("") || !parametros.get("apePaterno").equals("") || 
