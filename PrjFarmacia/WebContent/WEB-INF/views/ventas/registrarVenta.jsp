@@ -3,6 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+<style>
+.hidden {
+  display: none !important;
+}
+</style>
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -89,8 +95,8 @@
                             Dashboard
                         </h1> -->
 						<ol class="breadcrumb">
-					  <li><a href="#">Cliente</a></li>
- 					  <li><a href="#">Administrar Cliente</a></li>
+					  <li><a href="#">Ventas</a></li>
+ 					  <li><a href="#">Registrar Ventas</a></li>
 					  <!-- <li class="active">Data</li>  -->
 					</ol> 
 									
@@ -128,7 +134,6 @@
           			      <label for="documento" class="">Nro Documento</label>
 		        	</div>
 		        	<div class="input-field col s3">
-		        		<hidden> </hidden>
 		        		  <input type="hidden" id="hdIdCliente"  name="hdIdCliente"  >
 				          <input id="cliente"  name="cliente" type="text" class="validate">
           			      <label for="cliente" class="">Cliente</label>
@@ -161,7 +166,8 @@
 
 	      <div class="row">
 	         	<div class="input-field col s4">
-	         	<label>STOCK: 50</label>
+	         	<label id="lblTextoStock" >STOCK: </label>
+	         	<label id="lblStock" style="padding-left: 40px;"></label>
 		        </div>
 	      </div>
 	            <div class="row">
@@ -201,6 +207,7 @@
           <table id="tblProductos" class="table table-condensed">
 		    <thead>
 		      <tr>
+		        <th class="hidden"> ID </th>
 		        <th>Producto</th>
 		        <th>Cantidad</th>
 		        <th>Precio</th>
@@ -328,6 +335,7 @@
      var txtTelefono=null; 
      var txtCorreo=null;
      var hdIdCliente=null;
+     var hdIdProducto=null;
      
      function inicializarVariables(){
     	 tblProductos  = $('#tblProductos');
@@ -343,8 +351,12 @@
     	 txtCorreo =  $('#correo');
     	 hdIdCliente =  $('#hdIdCliente');
     	 txtCodArticulo  = $('#txtCodArticulo');
-    	 
     	 btnFinalizar.attr("disabled", true) 
+    	 hdIdProducto  =  $('#hdIdProducto');
+    	 lblTextoStock = $('#lblTextoStock');
+    	 lblTextoStock.hide();
+    	 lblStock  =  $('#lblStock');
+    	 
      }
      
      function cargarComponentes(){
@@ -375,7 +387,7 @@
           					hdIdCliente.focus();
                         }else{
                         	hdIdCliente.val(0);
-                        	mostrarMensajeError('El número de Documento Ingresado no se encuentrado registrado en nuestro sistema.');
+                        	mostrarMensajeError('El número de Documento Ingresado no se encuentrado registrado en el sistema.');
                         }    
       				},
       				error: function(){						
@@ -393,20 +405,25 @@
        				cache: false,				
        				data:
        				{
-       					codProducto: txtArticulo.val()
+       					codProducto: txtCodArticulo.val()
        	              },
        	            dataType: "json",
        				success: function(response){
                           if(response.estadoRespuesta == '<%= UConstantes.OK%>'){
                          	removerMensaje();
-                         	txtPrecio.val(response.parametros.cliente.nombre);
+                         	txtNombreArticulo.val(response.parametros.producto.nombre);
+                         	txtNombreArticulo.focus();
+                         	txtPrecio.val(response.parametros.producto.preVenta);
                          	txtPrecio.focus();
-           					txtCantidad.val(response.parametros.cliente.direccion);
-           					txtCantidad.focus();
-           					hdNombreProducto.val(response.parametros.cliente.idCliente);
+                         	lblStock.text(response.parametros.producto.stock);
+                         	lblTextoStock.show();
+                         	lblStock.focus();
+                         	lblStock.css({'color':'black'});
+                         	hdIdProducto.val(response.parametros.producto.idProducto);
+                         	txtCantidad.focus();
                          }else{
                          	//hdIdCliente.val(0);
-                         	mostrarMensajeError('El número de Documento Ingresado no se encuentrado registrado en nuestro sistema.');
+                         	mostrarMensajeError('El código de Producto Ingresado no se encuentrado registrado en el sistema.');
                          }    
        				},
        				error: function(){						
@@ -417,13 +434,30 @@
       	});
     	 
     	 btnAgregar.click(function(event){
-    		 if (txtArticulo.val()!='' && txtPrecio.val()!='' && txtCantidad.val()!='' ) {
-            	 var row = $("<tr><td>"+txtNombreArticulo.val()+ "</td><td>" + txtCantidad.val() +"</td><td>"+ txtPrecio.val()   + "</td></tr>");
-                 $("#tblProductos > tbody").append(row);
-                 limpiar();
-                 btnFinalizar.attr("disabled", false);
+    	//if (validarStock()==true){
+    		
+			 if (txtNombreArticulo.val()!='' && txtPrecio.val()!='' && txtCantidad.val()!='' ) {
+           	 var row = $("<tr><td class='hidden'>"+hdIdProducto.val()+"</td><td>"+txtNombreArticulo.val()+ "</td><td>" + txtCantidad.val() +"</td><td>"+ txtPrecio.val()   + "</td></tr>");
+                $("#tblProductos > tbody").append(row);
+                limpiar();
+                btnFinalizar.attr("disabled", false);
 			}
+    		
+    	//}
+    			 
+ 	
+ 
+    
  		});
+    	 
+    	 function validarStock(){
+    		 var res=true;
+    		 if(lblStock.text()<txtCantidad.val()){
+    			 mostrarMensajeError('El stock del Producto no se encuentra disponible.');
+    			 res= false;
+    		 }
+    		 return res;
+    	 }
          
     	 btnFinalizar.click(function(event){
     		 var prodElegidos='';
@@ -431,7 +465,7 @@
     		 //Inicio - Recorrer grilla
     		    $("#tblProductos tbody tr").each(function (index) {
     		    	i++;
-    		                var campo1, campo2, campo3;
+    		                var campo1, campo2, campo3,campo4;
     		                $(this).children("td").each(function (index2) 
     		                {
     		                    switch (index2) 
@@ -442,9 +476,11 @@
     		                                break;
     		                        case 2: campo3 = $(this).text();
     		                                break;
+    		                        case 3: campo4 = $(this).text();
+	                                break;
     		                    }    		                
     		                })
-    		                prodElegidos+=(campo1 + '-' + campo2 + '-' + campo3+'/');
+    		                prodElegidos+=(campo1 + '-' + campo2 + '-' + campo3+ '-' + campo4 +'/');
     		            })
     		 //Fin - Recorrer grilla
   			$.ajax({
@@ -472,9 +508,13 @@
  		});
     	 
      function limpiar(){
-    	 txtArticulo.val('');
+    	 txtNombreArticulo.val('');
     	 txtPrecio.val('');
     	 txtCantidad.val('');
+    	 txtCodArticulo.val('');
+    	 lblStock.text();
+    	 lblStock.hide();
+    	 lblTextoStock.hide();
      }
      
      function mostrarMensajeError(mensaje){

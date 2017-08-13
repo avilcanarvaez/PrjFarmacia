@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Producto {
 
 	private long idProducto;
+	private String codProducto;
 	private String nombre;
 	private String preVenta;
 	private String preCompra;
@@ -60,6 +61,12 @@ public class Producto {
 	}
 	public void setEstado(int estado) {
 		this.estado = estado;
+	}
+	public String getCodProducto() {
+		return codProducto;
+	}
+	public void setCodProducto(String codProducto) {
+		this.codProducto = codProducto;
 	}
 
 }

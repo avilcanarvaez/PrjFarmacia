@@ -13,6 +13,7 @@ public class ProductoMapper implements RowMapper<Producto> {
 	public Producto mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Producto producto= new Producto();
 		producto.setIdProducto(rs.getInt("ID_PRODUCTO"));
+		producto.setCodProducto(rs.getString("COD_PRODUCTO"));
 		producto.setNombre(rs.getString("NOMBRE"));
 		producto.setPreVenta(rs.getString("PRE_VENTA"));
 		producto.setPreCompra(rs.getString("PRE_COMPRA"));
