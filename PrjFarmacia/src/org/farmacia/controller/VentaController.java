@@ -6,11 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-
+import org.farmacia.bean.Cliente;
 import org.farmacia.bean.DetalleOrdenPedido;
 import org.farmacia.bean.OrdenPedido;
+import org.farmacia.bean.Respuesta;
 import org.farmacia.service.ClienteService;
+import org.farmacia.service.OrdenPedidoService;
 import org.farmacia.util.JsonUtil;
+import org.farmacia.util.UConstantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +27,9 @@ public class VentaController {
 	@Autowired
 	ClienteService clienteService;
 	
+	@Autowired
+	OrdenPedidoService ordenPedidoService;
+	
 	@GetMapping(value = "/cargarVentanaVentas")
 	public String cargarVentanaVentas(Model model) {
 		return "ventas/registrarVenta";
@@ -32,18 +38,25 @@ public class VentaController {
 	@PostMapping(value="/accionObtenerClienteXDni")
     public @ResponseBody String accionObtenerClienteXDni(HttpServletRequest request){   
 		System.out.println("Inicio accionObtenerClienteXDni()");
+		Respuesta respuesta = new Respuesta();
+		Cliente cliente= new Cliente();
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		
     	long dni= Long.parseLong(request.getParameter("numDocumento"));
-        String CadenaJson=null;
+        //String CadenaJson=null;
         try {
-        	  CadenaJson=JsonUtil.convertirObjetoACadenaJson(clienteService.obtener(dni));
+        		 cliente=clienteService.obtener(dni);
+        		 respuesta.setEstadoRespuesta(UConstantes.OK);
+        		 parametros.put("cliente", cliente);
+        		 respuesta.setParametros(parametros);
+        		 //CadenaJson=JsonUtil.convertirObjetoACadenaJson(clienteService.obtener(dni));
 		} catch (Exception exception) {
-			//throw new Exception(exception);
+			respuesta.setEstadoRespuesta(UConstantes.ERROR);
+			respuesta.setMensajeRespuesta(exception.toString());
 		}
-       
-        return CadenaJson;
+        System.out.println("Fin accionObtenerClienteXDni()");
+        return JsonUtil.convertirObjetoACadenaJson(respuesta);
     }
-	
-	
 	
 	@PostMapping(value = "/finalizarVenta")
 	public @ResponseBody String finalizarVenta(HttpServletRequest request) throws ParseException {
@@ -53,7 +66,6 @@ public class VentaController {
 		String infoProducto =request.getParameter("productos");
 		String aInfoProducto[]= infoProducto.split("/");
 		String aInfoProductoTmp[];
-		
 		
 		OrdenPedido ordenPedido= new OrdenPedido();
 		List<DetalleOrdenPedido> listaDetalleOrdenPedido=new ArrayList<DetalleOrdenPedido>(); 
@@ -72,9 +84,7 @@ public class VentaController {
 			aInfoProductoTmp=aInfoProducto[i].split("-");
 			nombreProducto=aInfoProductoTmp[0].toString();
 			precioVenta=aInfoProductoTmp[1].toString();
-			cantidad=aInfoProductoTmp[2].toString();
-			
-			
+			cantidad=aInfoProductoTmp[2].toString();			
 			detalleOrdenPedido= new DetalleOrdenPedido();
 			//detalleOrdenPedido.setIdProducto(idProducto);
 			detalleOrdenPedido.setNombreProducto(nombreProducto);
@@ -84,28 +94,7 @@ public class VentaController {
 		}	
 		
 		ordenPedido.setListaDetalleOrdenPedido(listaDetalleOrdenPedido);
-		
-		
-//		Cliente usuario = new Cliente();
-//		String nombre = request.getParameter("nombre");
-//		String apePaterno = request.getParameter("apePaterno");
-//		String apeMaterno = request.getParameter("apeMaterno");
-//		String nroDocumento= request.getParameter("nroDocumento");
-//		String fechaNacimiento = request.getParameter("nacimiento");
-//		String correo =  request.getParameter("correo");
-//		String direccion = request.getParameter("direccion");
-//		String telefono = request.getParameter("telefono");
-//
-//		usuario.setNombre(nombre);
-//		usuario.setApePaterno(apePaterno);
-//		usuario.setApeMaterno(apeMaterno);
-//		usuario.setNroDocumento(nroDocumento);
-//		usuario.setFechaNacimiento(this.parseDate(fechaNacimiento));
-//		usuario.setCorreo(correo);
-//		usuario.setDireccion(direccion);
-//		usuario.setTelefono(telefono);
-//		this.clienteService.insertar(usuario);
-		//return "redirect:/index";
+		this.ordenPedidoService.insertar(ordenPedido);
 	    return JsonUtil.convertirObjetoACadenaJson(1);  
 	}
 
