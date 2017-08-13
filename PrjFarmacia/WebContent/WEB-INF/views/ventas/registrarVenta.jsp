@@ -385,8 +385,6 @@
      	    }
      	});
          
-         
-         
          txtCodArticulo.on('keyup', function (e) {
       	    if (e.keyCode == 13) {
         			$.ajax({
@@ -417,7 +415,6 @@
        			});
       	    }
       	});
-         
     	 
     	 btnAgregar.click(function(event){
     		 if (txtArticulo.val()!='' && txtPrecio.val()!='' && txtCantidad.val()!='' ) {
