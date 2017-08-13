@@ -16,8 +16,8 @@ public class OrdenPedidoDaoImpl implements OrdenPedidoDao{
 	@Override
 	public void insertar(OrdenPedido entidad) {
 		String sql="INSERT INTO OrdenPedido(nro_orden_pedido,id_cliente,id_usuario,total,fecha_venta) VALUES(?,?,?,?,NOW())";
-		//Object[] params= new Object[] {entidad.getNroOrdenPedido() ,entidad.getIdCliente() ,entidad.getIdUsuario(),entidad.getTotal()};
-		Object[] params= new Object[] {"001" ,1 ,1,150.50};
+		Object[] params= new Object[] {entidad.getNroOrdenPedido() ,entidad.getIdCliente() , 1,entidad.getTotal()};
+		//Object[] params= new Object[] {"001" ,1 ,1,150.50};
 		this.jdbcTemplate.update(sql, params);
 		
 	}

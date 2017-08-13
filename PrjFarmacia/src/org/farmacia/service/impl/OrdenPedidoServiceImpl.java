@@ -1,5 +1,6 @@
 package org.farmacia.service.impl;
 
+import org.farmacia.bean.DetalleOrdenPedido;
 import org.farmacia.bean.OrdenPedido;
 import org.farmacia.dao.DetalleOrdenPedidoDao;
 import org.farmacia.dao.OrdenPedidoDao;
@@ -24,10 +25,26 @@ public class OrdenPedidoServiceImpl extends BaseServiceImpl<OrdenPedido, Long> i
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void insertar(OrdenPedido entidad) {
+		//
+		double total=0;
+//		for (int i = 0; i <  entidad.getListaDetalleOrdenPedido().size(); i++) {
+//			total+=entidad.getListaDetalleOrdenPedido().get(i).getPrecioVenta();
+//		}
+		
+		for (DetalleOrdenPedido e : entidad.getListaDetalleOrdenPedido()) {
+			total+=e.getPrecioVenta() * e.getCantidad();
+		}
+		
+		entidad.setTotal(total);
 		ordenPedidoDao.insertar(entidad);
+		//
+		
+		
 		long ultimoIdPedido=Long.parseLong( ordenPedidoDao.obtenerUltimoIdPedido());
 		for (int i = 0; i < entidad.getListaDetalleOrdenPedido().size(); i++) {
+			total+=entidad.getListaDetalleOrdenPedido().get(i).getPrecioVenta();
 			entidad.getListaDetalleOrdenPedido().get(i).setIdOrdenPedido(ultimoIdPedido);
+			
 			detalleOrdenPedidoDao.insertar(entidad.getListaDetalleOrdenPedido().get(i));
 			int resultadoAct= productoDao.actualizarStock(entidad.getListaDetalleOrdenPedido().get(i).getIdProducto(), entidad.getListaDetalleOrdenPedido().get(i).getCantidad());
 		}

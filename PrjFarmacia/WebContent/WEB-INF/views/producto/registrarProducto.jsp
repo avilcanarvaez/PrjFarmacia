@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -6,6 +6,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>| SISPHARMA- Sistema control farmacia |</title>
+    
+    <c:url var="home" value="/" scope="request" />
 	
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/materialize/css/materialize.min.css" media="screen,projection" />
@@ -38,7 +40,7 @@
             </div>
 
             <ul class="nav navbar-top-links navbar-right"> 				
-				  <li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown1"><i class="fa fa-user fa-fw"></i> <b>ADMIN</b> <i class="material-icons right">arrow_drop_down</i></a></li>
+				  <li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown1"><i class="fa fa-user fa-fw"></i> <b>Usuario</b> <i class="material-icons right">arrow_drop_down</i></a></li>
             </ul>
         </nav>
 		<!-- Dropdown Structure -->
@@ -51,7 +53,7 @@
 </ul>
 
 	   <!--/. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
+        <        <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
@@ -88,45 +90,14 @@
                             Dashboard
                         </h1> -->
 						<ol class="breadcrumb">
-					  <li><a href="#">Home</a></li>
-<!-- 					  <li><a href="#">Dashboard</a></li>
-					  <li class="active">Data</li> -->
+					  <li><a href="#">Cliente</a></li>
+ 					  <li><a href="#">Registrar Cliente</a></li>
+					  <!-- <li class="active">Data</li>  -->
 					</ol> 
 									
 		</div>
-           
-		<div class="footer"> 
-		<footer><p>Todos los derechos reservados.</p>
-				</footer>
-		</div>
-				
-            </div>
-            <!-- /. PAGE INNER  -->
-        </div>
-        <!-- /. PAGE WRAPPER  -->
-    </div>
-    <!-- /. WRAPPER  -->
-    <!-- JS Scripts-->
-    <!-- jQuery Js -->
-    <script src="${pageContext.request.contextPath}/resources/assets/js/jquery-1.10.2.js"></script>
-	
-	<!-- Bootstrap Js -->
-    <script src="${pageContext.request.contextPath}/resources/assets/js/bootstrap.min.js"></script>
-	
-	<script src="${pageContext.request.contextPath}/resources/assets/materialize/js/materialize.min.js"></script>
-	
-    <!-- Metis Menu Js -->
-    <script src="${pageContext.request.contextPath}/resources/assets/js/jquery.metisMenu.js"></script>
-    <!-- Morris Chart Js -->
-    <script src="${pageContext.request.contextPath}/resources/assets/js/morris/raphael-2.1.0.min.js"></script>
-<%--     <script src="${pageContext.request.contextPath}/resources/assets/js/morris/morris.js"></script> --%>
-	
-	<script src="${pageContext.request.contextPath}/resources/assets/js/easypiechart.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/assets/js/easypiechart-data.js"></script>
-	
-	 <script src="${pageContext.request.contextPath}/resources/assets/js/Lightweight-Chart/jquery.chart.js"></script>
-	
-    <!-- Custom Js -->
-    <script src="${pageContext.request.contextPath}/resources/assets/js/custom-scripts.js"></script> 
-</body>
+             <div class="page-inner"> 
+
+<h1>Hello Katy</h1>
+
 </html>

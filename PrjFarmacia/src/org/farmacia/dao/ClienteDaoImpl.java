@@ -66,9 +66,9 @@ public class ClienteDaoImpl implements ClienteDao{
 		sql.append( "SELECT ID_CLIENTE,NOMBRE,APE_PATERNO,APE_MATERNO,NRO_DOCUMENTO,FECHA_NACIMIENTO,CORREO,DIRECCION,TELEFONO,ESTADO FROM CLIENTE");
 		if (!parametros.get("nombre").equals("") || !parametros.get("apePaterno").equals("") || 
 			!parametros.get("apeMaterno").equals("") || !parametros.get("documento").equals("")  ) {
-			sql.append(" WHERE ");
+			sql.append(" WHERE ESTADO='1'");
 				if (!parametros.get("nombre").equals("")) {
-					sql.append("NOMBRE= '"+parametros.get("nombre")+"'");
+					sql.append("AND NOMBRE= '"+parametros.get("nombre")+"'");
 				}
 			
 				if (!parametros.get("apePaterno").equals("")) {

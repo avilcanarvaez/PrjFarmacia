@@ -77,17 +77,17 @@
 				username : username.val(),
 				password : password.val()
 			},
-// 			success : function(response) {
-// 				console.log("success");
-// 				if (response == 1) {
-// 					alert("Bienvenido a SYSPHARMA" + username + "!!!");
-// 				} else {
-// 					alert("Error al Ingresar su Usuario o Password!");
-// 				}
-// 			},
-// 			error : function() {
-// 				console.log("error");
-// 			}
+			  dataType: "json",
+ 			success : function(response) {
+                if(response.estadoRespuesta == "OK"){
+                	window.location.href = './index';
+                 }else{
+                 	alert('El usuario o la clave que ingresaste no coincide con ninguna cuenta.');
+                 }  
+ 			},
+ 			error : function() {
+ 				console.log("error");
+ 			}
 		});
 	});
 </script>

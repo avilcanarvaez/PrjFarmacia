@@ -27,7 +27,7 @@ public class ClienteController {
 	@Autowired
 	ClienteService clienteService;
 
-	@GetMapping(value = { "/", "/index" })
+	@GetMapping(value = { "/index" })
 	public String index() {
 		System.out.println("Mostrando Inicio");
 		return "index";

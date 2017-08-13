@@ -18,7 +18,7 @@ public class ProductoDaoImpl implements ProductoDao{
 	@Override
 	public  List<Producto> listarProductoPorParametroBusqueda(Map<String, Object> parametros) {
 		StringBuilder sql=new StringBuilder();
-		sql.append( "SELECT ID_PRODUCTO,NOMBRE,PRE_VENTA,PRE_COMPRA,FECHA_VENC,STOCK,ID_CATEGORIA,ESTADO FROM PRODUCTO");
+		sql.append( "SELECT COD_PRODUCTO,ID_PRODUCTO,NOMBRE,PRE_VENTA,PRE_COMPRA,FECHA_VENC,STOCK,ID_CATEGORIA,ESTADO FROM PRODUCTO");
 		if (!parametros.get("nombre").equals("")) {
 			sql.append(" WHERE ");
 				if (!parametros.get("nombre").equals("")) {
@@ -55,7 +55,7 @@ public class ProductoDaoImpl implements ProductoDao{
 
 	@Override
 	public List<Producto> listar() {
-		String sql="SELECT ID_PRODUCTO,NOMBRE,PRE_VENTA,PRE_COMPRA,FECHA_VENC,STOCK,ID_CATEGORIA,ESTADO FROM PRODUCTO";
+		String sql="SELECT COD_PRODUCTO,ID_PRODUCTO,NOMBRE,PRE_VENTA,PRE_COMPRA,FECHA_VENC,STOCK,ID_CATEGORIA,ESTADO FROM PRODUCTO";
 		return jdbcTemplate.query(sql, new ProductoMapper());
 	}
 
